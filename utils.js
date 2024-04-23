@@ -5,7 +5,7 @@ const findNumberOfMatchesWithRegex = (text, regex) => {
 
 const findNumberOfPreformattedTags = (text) => {
   const openTagsNumber = findNumberOfMatchesWithRegex(text, /<pre>\n/g);
-  const closedTagsNumber = findNumberOfMatchesWithRegex(text, /<\/pre>\n/g);
+  const closedTagsNumber = findNumberOfMatchesWithRegex(text, /<\/pre>/g);
   return {
     openTagsNumber,
     closedTagsNumber,

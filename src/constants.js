@@ -3,6 +3,7 @@ const REGEX = {
   italic: /(?<=^|\s)_(\S((?:(?!\*\*\s).)*?\S)?)_(?=\s|$)(?![^<pre>]*<\/pre>)/g,
   monospaced: /(?<=^|\s)`(\S((?:(?!\*\*\s).)*?\S)?)`(?=\s|$)(?![^<pre>]*<\/pre>)/g,
   preformatted: /(?<=^|\n)```([\s\S]+?)```(?=\n|$)/g,
+  preformattedInHtml: /(?<=^|\n)<pre>([\s\S]+?)<\/pre>(?=\n|$)/g,
 };
 
 module.exports = REGEX;

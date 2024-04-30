@@ -1,5 +1,5 @@
 const fs = require('fs');
-const convertMarkdownToHTML = require('./convertMdToHtml');
+const { convertMarkdownToHTML } = require('./convertMdToHtml');
 const convertMarkdownToANSI = require('./convertMdToAnsi');
 
 const filePath = process.argv[2];

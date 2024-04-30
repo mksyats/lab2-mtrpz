@@ -1,6 +1,6 @@
 const REGEX = require('./constants');
 const findNumberOfMatchesWithRegex = require('./utils');
-const checkMarkdownForErrors = require('./checkMdForErrors');
+const { checkMarkdownForErrors } = require('./checkMdForErrors');
 
 const findNumberOfPreformattedTags = (text) => {
   const openTagsNumber = findNumberOfMatchesWithRegex(text, /^<pre>$/gm);
@@ -42,4 +42,8 @@ const convertMarkdownToHTML = (markdown) => {
   return convertParagraphs(resWithoutParagraphs);
 };
 
-module.exports = convertMarkdownToHTML;
+module.exports = {
+  convertMarkdownToHTML,
+  findNumberOfPreformattedTags,
+  convertParagraphs,
+};

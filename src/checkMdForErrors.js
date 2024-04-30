@@ -53,4 +53,8 @@ const checkMarkdownForErrors = (markdown) => {
   }
 };
 
-module.exports = checkMarkdownForErrors;
+module.exports = {
+  checkMarkdownForErrors,
+  checkTextForNestedMarkup,
+  checkTextForNoClosedTags,
+};

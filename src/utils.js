@@ -34,6 +34,7 @@ const convertParagraphs = (text) => {
 };
 
 const checkTextForNestedMarkup = (text) => {
+  let error = null;
   const nestedMarkups = [
     /(?:^|\s)(\*\*(?! )(?:(?!\*\* ).)*?_(\S\S?|\S(.+?)\S)_.*(?! )\*\*)(?=\s|$)/g,
     /(?:^|\s)(\*\*(?! )(?:(?!\*\* ).)*?`(\S\S?|\S(.+?)\S)`.*(?! )\*\*)(?=\s|$)/g,
@@ -42,13 +43,14 @@ const checkTextForNestedMarkup = (text) => {
     /(?:^|\s)(`.(?! )(?:(?!` ).)*?_(\S\S?|\S(.+?)\S)_.*(?! )`)(?=\s|$)/g,
     /(?:^|\s)(`(?! )(?:(?!` ).)*?\*\*(\S\S?|\S(.+?)\S)\*\*.*(?! )`)(?=\s|$)/g,
   ];
-
   if (nestedMarkups.some((nestedMarkupTemplate) => nestedMarkupTemplate.test(text))) {
-    throw new Error('nested markup found');
+    error = 'nested markup found';
   }
+  return error;
 };
 
 const checkTextForNoClosedTags = (text) => {
+  let error = null;
   const openedBoldSingleTag = /(?<=^|\s)\*\*(\S.+?\S|\S)/g;
   const closedBoldSingleTag = /(\S.+?\S|\S)\*\*(?=\s|$)/g;
   const openedItalicSingleTag = /(?<=^|\s)_(\S.+?\S|\S)/g;
@@ -65,16 +67,19 @@ const checkTextForNoClosedTags = (text) => {
   if (openedBoldTagsNumber > closedBoldTagsNumber
     || openedItalicTagsNumber > closedItalicTagsNumber
     || openedMonospacedTagsNumber > closedMonospacedTagsNumber) {
-    throw new Error('no closed tag found');
+    error = 'no closed tag found';
   }
   const matchesPreformattedSingleTag = text.match(preformattedSingleTag);
   if (matchesPreformattedSingleTag !== null) {
-    if (matchesPreformattedSingleTag.length % 2 !== 0) throw new Error('no closed preformatted text');
+    error = 'no closed preformatted text';
   }
+  return error;
 };
 
 module.exports = {
   convertParagraphs,
   checkTextForNestedMarkup,
   checkTextForNoClosedTags,
+  findNumberOfPreformattedTags,
+  findNumberOfMatchesWithRegex,
 };

@@ -76,10 +76,21 @@ const checkTextForNoClosedTags = (text) => {
   return error;
 };
 
+const checkMarkdownForErrors = (markdown) => {
+  const error = markdown === ''
+    ? 'received text is an empty string'
+    : checkTextForNestedMarkup(markdown) || checkTextForNoClosedTags(markdown);
+  if (error) {
+    console.error('\x1b[31m%s\x1b[0m', 'Error:', error);
+    process.exit(1);
+  }
+};
+
 module.exports = {
   convertParagraphs,
   checkTextForNestedMarkup,
   checkTextForNoClosedTags,
   findNumberOfPreformattedTags,
   findNumberOfMatchesWithRegex,
+  checkMarkdownForErrors,
 };

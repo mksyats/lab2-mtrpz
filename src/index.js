@@ -1,6 +1,6 @@
 const fs = require('fs');
-const convertMarkdownToHTML = require('./markdown-to-html');
-const convertMarkdownToANSI = require('./markdown-to-ansi');
+const convertMarkdownToHTML = require('./convertMdToHtml');
+const convertMarkdownToANSI = require('./convertMdToAnsi');
 
 const filePath = process.argv[2];
 const outputFilePathIndex = process.argv.indexOf('--out');

@@ -1,5 +1,5 @@
 const REGEX = require('./constants');
-const { checkMarkdownForErrors } = require('./utils');
+const { checkMarkdownForErrors } = require('./checkMdForErrors');
 
 const convertMarkdownToANSI = (markdown) => {
   checkMarkdownForErrors(markdown);

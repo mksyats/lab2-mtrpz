@@ -18,24 +18,19 @@ const checkTextForNestedMarkup = (text) => {
 
 const checkTextForNoClosedTags = (text) => {
   let error = null;
-  const openedBoldSingleTag = /(?<=^|\s)\*\*(\S.+?\S|\S)/g;
-  const closedBoldSingleTag = /(\S.+?\S|\S)\*\*(?=\s|$)/g;
-  const openedItalicSingleTag = /(?<=^|\s)_(\S.+?\S|\S)/g;
-  const closedItalicSingleTag = /(\S.+?\S|\S)_(?=\s|$)/g;
-  const openedMonospacedSingleTag = /(?<=^|\s)`(\S.+?\S|\S)/g;
-  const closedMonospacedSingleTag = /(\S.+?\S|\S)`(?=\s|$)/g;
+  const symbolsForTags = ['\\*\\*', '_', '`'];
+  symbolsForTags.some((symbolForCurrentTag) => {
+    const currentTagOpenedPart = new RegExp(`(?<=^|\\s)${symbolForCurrentTag}(\\S.+?\\S|\\S)`, 'g');
+    const currentTagClosedPart = new RegExp(`(\\S.+?\\S|\\S)${symbolForCurrentTag}(?=\\s|$)`, 'g');
+    const currentTagsOpenedPartNumber = findNumberOfMatchesWithRegex(text, currentTagOpenedPart);
+    const currentTagsClosedPartNumber = findNumberOfMatchesWithRegex(text, currentTagClosedPart);
+    if (currentTagsOpenedPartNumber > currentTagsClosedPartNumber) {
+      error = 'no closed tag found';
+      return true;
+    }
+    return false;
+  });
   const preformattedSingleTag = /(?<=^|\n)```(?=\n|$)/g;
-  const openedBoldTagsNumber = findNumberOfMatchesWithRegex(text, openedBoldSingleTag);
-  const openedItalicTagsNumber = findNumberOfMatchesWithRegex(text, openedItalicSingleTag);
-  const openedMonospacedTagsNumber = findNumberOfMatchesWithRegex(text, openedMonospacedSingleTag);
-  const closedBoldTagsNumber = findNumberOfMatchesWithRegex(text, closedBoldSingleTag);
-  const closedItalicTagsNumber = findNumberOfMatchesWithRegex(text, closedItalicSingleTag);
-  const closedMonospacedTagsNumber = findNumberOfMatchesWithRegex(text, closedMonospacedSingleTag);
-  if (openedBoldTagsNumber > closedBoldTagsNumber
-    || openedItalicTagsNumber > closedItalicTagsNumber
-    || openedMonospacedTagsNumber > closedMonospacedTagsNumber) {
-    error = 'no closed tag found';
-  }
   const matchesPreformattedSingleTag = text.match(preformattedSingleTag);
   if (matchesPreformattedSingleTag !== null) {
     if (matchesPreformattedSingleTag.length % 2 !== 0) error = 'no closed preformatted text';

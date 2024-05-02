@@ -33,7 +33,7 @@ const checkTextForNoClosedTags = (text) => {
   const preformattedSingleTag = /(?<=^|\n)```(?=\n|$)/g;
   const matchesPreformattedSingleTag = text.match(preformattedSingleTag);
   if (matchesPreformattedSingleTag !== null) {
-    error = 'no closed preformatted text';
+    if (matchesPreformattedSingleTag.length % 2 !== 0) error = 'no closed preformatted text';
   }
   return error;
 };
